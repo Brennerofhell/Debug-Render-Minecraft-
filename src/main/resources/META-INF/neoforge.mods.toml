@@ -1,30 +1,27 @@
 modLoader="javafml"
-loaderVersion="[52,)"
+loaderVersion="[4,)"
 license="MIT"
-# Reine Client-Mod: muss auf dem Server nicht installiert sein,
-# Forge prüft beim Verbinden keine passende Server-Version.
-clientSideOnly=true
 
 [[mods]]
 modId="supportblocks"
 version="1.0.0"
 displayName="Support Blocks"
 authors="brennerofhell"
-displayTest="IGNORE_ALL_VERSION"
 description='''Markiert den Block, auf dem Spieler und Mobs stehen, mit einem grünen Rahmen
 (Nachbau des Debug-Renderers "visualize_entity_supporting_block" aus 1.21.11).
-Umschalten mit F8.'''
+Umschalten mit F8. Reine Client-Mod – auf dem Server nicht nötig.'''
 
+# side="CLIENT": Die Mod wird nur auf dem Client benötigt/geladen.
 [[dependencies.supportblocks]]
-    modId="forge"
-    mandatory=true
-    versionRange="[52,)"
+    modId="neoforge"
+    type="required"
+    versionRange="[21.1,)"
     ordering="NONE"
     side="CLIENT"
 
 [[dependencies.supportblocks]]
     modId="minecraft"
-    mandatory=true
+    type="required"
     versionRange="[1.21.1,1.21.2)"
     ordering="NONE"
     side="CLIENT"

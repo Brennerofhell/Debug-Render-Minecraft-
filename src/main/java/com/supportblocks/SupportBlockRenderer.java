@@ -13,10 +13,10 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.RenderLevelStageEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
 
 import java.util.Optional;
 
@@ -25,7 +25,7 @@ import java.util.Optional;
  * analog zum Debug-Renderer "visualize_entity_supporting_block" aus 1.21.11.
  * Da wir die Entities selbst durchlaufen, funktioniert das auch bei unsichtbaren Entities.
  */
-@Mod.EventBusSubscriber(modid = SupportBlocksMod.MOD_ID, value = Dist.CLIENT)
+@EventBusSubscriber(modid = SupportBlocksMod.MOD_ID, value = Dist.CLIENT, bus = EventBusSubscriber.Bus.GAME)
 public final class SupportBlockRenderer {
 
     /** true = nur Spieler markieren, false = alle Entities (Mobs, Items, Boote, ...). */

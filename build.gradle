@@ -1,38 +1,30 @@
-// Forge-MDK-Setup für Minecraft 1.21.1 (ForgeGradle 7, Java 21).
+// NeoForge-MDK-Setup für Minecraft 1.21.1 (ModDevGradle, Java 21).
 plugins {
-    id 'java'
+    id 'java-library'
     id 'idea'
-    id 'eclipse'
-    id 'net.minecraftforge.gradle' version '[7.0.3,8)'
+    id 'net.neoforged.moddev' version '2.0.115'
 }
 
 version = mod_version
 group = 'com.supportblocks'
-base.archivesName = 'supportblocks'
+base.archivesName = mod_id
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 
-minecraft {
-    // Offizielle Mojang-Namen (z. B. Entity#mainSupportingBlockPos)
-    mappings channel: 'official', version: minecraft_version
+neoForge {
+    version = neo_version
 
     runs {
-        configureEach {
-            workingDir = layout.projectDirectory.dir('run')
+        client {
+            client()
         }
-        register('client')
     }
-}
 
-repositories {
-    minecraft.mavenizer(it)
-    maven fg.forgeMaven
-    maven fg.minecraftLibsMaven
-    mavenCentral()
-}
-
-dependencies {
-    implementation minecraft.dependency("net.minecraftforge:forge:${minecraft_version}-${forge_version}")
+    mods {
+        "${mod_id}" {
+            sourceSet(sourceSets.main)
+        }
+    }
 }
 
 tasks.withType(JavaCompile).configureEach {

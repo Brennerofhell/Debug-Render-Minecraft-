@@ -1,4 +1,22 @@
 {
   "key.categories.supportblocks": "Support Blocks",
-  "key.supportblocks.toggle": "Toggle supporting-block outlines"
+  "key.supportblocks.toggle": "Toggle supporting-block outlines",
+
+  "supportblocks.configuration.title": "Support Blocks Configuration",
+  "supportblocks.configuration.section.supportblocks.client.toml": "Client Settings",
+  "supportblocks.configuration.section.supportblocks.client.toml.title": "Client Settings",
+  "supportblocks.configuration.enabledOnStartup": "Enabled on startup",
+  "supportblocks.configuration.enabledOnStartup.tooltip": "Show the outlines right after the game starts.",
+  "supportblocks.configuration.onlyPlayers": "Only players",
+  "supportblocks.configuration.onlyPlayers.tooltip": "Only mark players instead of all entities.",
+  "supportblocks.configuration.radius": "Radius",
+  "supportblocks.configuration.radius.tooltip": "Maximum distance in blocks.",
+  "supportblocks.configuration.red": "Color: red",
+  "supportblocks.configuration.red.tooltip": "Red component of the outline (0.0 - 1.0).",
+  "supportblocks.configuration.green": "Color: green",
+  "supportblocks.configuration.green.tooltip": "Green component of the outline (0.0 - 1.0).",
+  "supportblocks.configuration.blue": "Color: blue",
+  "supportblocks.configuration.blue.tooltip": "Blue component of the outline (0.0 - 1.0).",
+  "supportblocks.configuration.alpha": "Opacity",
+  "supportblocks.configuration.alpha.tooltip": "Opacity of the outline (0.0 - 1.0)."
 }

@@ -1,4 +1,22 @@
 {
   "key.categories.supportblocks": "Support Blocks",
-  "key.supportblocks.toggle": "Support-Blöcke ein/aus"
+  "key.supportblocks.toggle": "Support-Blöcke ein/aus",
+
+  "supportblocks.configuration.title": "Support Blocks – Einstellungen",
+  "supportblocks.configuration.section.supportblocks.client.toml": "Client-Einstellungen",
+  "supportblocks.configuration.section.supportblocks.client.toml.title": "Client-Einstellungen",
+  "supportblocks.configuration.enabledOnStartup": "Beim Start aktiv",
+  "supportblocks.configuration.enabledOnStartup.tooltip": "Rahmen direkt nach dem Spielstart anzeigen.",
+  "supportblocks.configuration.onlyPlayers": "Nur Spieler",
+  "supportblocks.configuration.onlyPlayers.tooltip": "Nur Spieler markieren statt aller Entities.",
+  "supportblocks.configuration.radius": "Radius",
+  "supportblocks.configuration.radius.tooltip": "Maximale Entfernung in Blöcken.",
+  "supportblocks.configuration.red": "Farbe: Rot",
+  "supportblocks.configuration.red.tooltip": "Rot-Anteil des Rahmens (0.0 - 1.0).",
+  "supportblocks.configuration.green": "Farbe: Grün",
+  "supportblocks.configuration.green.tooltip": "Grün-Anteil des Rahmens (0.0 - 1.0).",
+  "supportblocks.configuration.blue": "Farbe: Blau",
+  "supportblocks.configuration.blue.tooltip": "Blau-Anteil des Rahmens (0.0 - 1.0).",
+  "supportblocks.configuration.alpha": "Deckkraft",
+  "supportblocks.configuration.alpha.tooltip": "Deckkraft des Rahmens (0.0 - 1.0)."
 }

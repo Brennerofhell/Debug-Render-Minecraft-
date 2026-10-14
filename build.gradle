@@ -30,3 +30,10 @@ neoForge {
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
 }
+
+// Lizenztext mit in die .jar packen
+tasks.named('jar') {
+    from('LICENSE') {
+        rename { "${it}_${mod_id}" }
+    }
+}

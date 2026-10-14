@@ -28,11 +28,7 @@ import java.util.Optional;
 @EventBusSubscriber(modid = SupportBlocksMod.MOD_ID, value = Dist.CLIENT, bus = EventBusSubscriber.Bus.GAME)
 public final class SupportBlockRenderer {
 
-    /** true = nur Spieler markieren, false = alle Entities (Mobs, Items, Boote, ...). */
-    private static final boolean ONLY_PLAYERS = false;
-
-    /** Maximale Entfernung (in Blöcken) zwischen Kamera und Entity. */
-    private static final double RADIUS = 64.0;
+    // "Nur Spieler", Radius und Farbe kommen aus der Config (siehe Config.java).
 
     /** Leicht vergrößern, damit der Rahmen nicht mit den Blockkanten flackert (Z-Fighting). */
     private static final double INFLATE = 0.002;
@@ -51,7 +47,13 @@ public final class SupportBlockRenderer {
 
         Camera camera = event.getCamera();
         Vec3 cam = camera.getPosition();
-        double radiusSqr = RADIUS * RADIUS;
+        boolean onlyPlayers = Config.ONLY_PLAYERS.get();
+        double radius = Config.RADIUS.get();
+        double radiusSqr = radius * radius;
+        float r = Config.RED.get().floatValue();
+        float g = Config.GREEN.get().floatValue();
+        float b = Config.BLUE.get().floatValue();
+        float a = Config.ALPHA.get().floatValue();
 
         PoseStack poseStack = event.getPoseStack();
         MultiBufferSource.BufferSource buffers = mc.renderBuffers().bufferSource();
@@ -63,14 +65,14 @@ public final class SupportBlockRenderer {
 
         for (Entity entity : level.entitiesForRendering()) {
             if (entity == mc.player) continue;                          // eigenen Spieler auslassen
-            if (ONLY_PLAYERS && !(entity instanceof Player)) continue;
+            if (onlyPlayers && !(entity instanceof Player)) continue;
             if (entity.distanceToSqr(cam) > radiusSqr) continue;
 
             BlockPos pos = getSupportingBlock(entity);
             if (pos == null) continue;
 
             AABB box = new AABB(pos).inflate(INFLATE);
-            LevelRenderer.renderLineBox(poseStack, lines, box, 0.0F, 1.0F, 0.0F, 1.0F); // grün
+            LevelRenderer.renderLineBox(poseStack, lines, box, r, g, b, a); // Standard: grün
         }
 
         poseStack.popPose();

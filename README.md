@@ -84,14 +84,12 @@ Die fertige Mod liegt danach in `build/libs/`.
 
 ### Neue Version veröffentlichen
 
-Version in `gradle.properties` (`mod_version`) anpassen, dann einen Tag pushen:
+1. `mod_version` in `gradle.properties` erhöhen (z. B. `1.0.1`).
+2. Auf `main` pushen bzw. mergen.
 
-```bash
-git tag v1.0.1
-git push origin v1.0.1
-```
-
-GitHub Actions baut die Mod und erstellt automatisch ein Release mit der `.jar` zum Download.
+GitHub Actions baut die Mod und erstellt automatisch das Release `v1.0.1` mit der `.jar` zum Download.
+Alternativ geht das auch per Tag (`git tag v1.0.1 && git push origin v1.0.1`) oder über
+*Actions → Release → Run workflow*.
 
 ## Lizenz
 

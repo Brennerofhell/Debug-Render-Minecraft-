@@ -1,11 +1,15 @@
 name: Release
 
-# Wird ausgelöst, wenn ein Versions-Tag wie "v1.0.0" gepusht wird.
-# Baut die Mod und hängt die .jar an ein GitHub-Release an.
+# Erstellt automatisch ein GitHub-Release mit der .jar zum Download:
+#  - bei jedem Push auf main, sofern es für "mod_version" aus gradle.properties
+#    noch kein Release gibt (Version erhöhen + auf main pushen = neues Release),
+#  - bei einem gepushten Versions-Tag wie "v1.2.3",
+#  - oder manuell über "Run workflow" im Actions-Tab.
 on:
   push:
-    tags:
-      - 'v*'
+    branches: [main]
+    tags: ['v*']
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -16,25 +20,49 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Determine version
+        id: version
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if [ "$GITHUB_REF_TYPE" = "tag" ]; then
+            VERSION="${GITHUB_REF_NAME#v}"
+          else
+            VERSION="$(grep '^mod_version=' gradle.properties | cut -d= -f2 | tr -d '[:space:]')"
+          fi
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          if gh release view "v$VERSION" >/dev/null 2>&1; then
+            echo "Release v$VERSION existiert bereits – nichts zu tun."
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          fi
+
       - uses: actions/setup-java@v4
+        if: steps.version.outputs.exists == 'false'
         with:
           distribution: temurin
           java-version: 21
 
       - uses: gradle/actions/setup-gradle@v4
+        if: steps.version.outputs.exists == 'false'
 
       - name: Build
-        # Version aus dem Tag übernehmen (v1.2.3 -> 1.2.3)
-        run: ./gradlew build -Pmod_version=${GITHUB_REF_NAME#v} --stacktrace
+        if: steps.version.outputs.exists == 'false'
+        run: ./gradlew build -Pmod_version=${{ steps.version.outputs.version }} --stacktrace
 
       - name: Create release
+        if: steps.version.outputs.exists == 'false'
         uses: softprops/action-gh-release@v2
         with:
-          name: Support Blocks ${{ github.ref_name }}
+          tag_name: v${{ steps.version.outputs.version }}
+          target_commitish: ${{ github.sha }}
+          name: Support Blocks ${{ steps.version.outputs.version }}
           files: build/libs/*.jar
+          make_latest: true
           generate_release_notes: true
           body: |
             Client-Mod für **Minecraft 1.21.1** mit **NeoForge 21.1.x**.
 
-            **Installation:** Die `.jar` unten herunterladen und in den Ordner `.minecraft/mods` kopieren.
+            **Installation:** Die `.jar` unten unter *Assets* herunterladen und in den Ordner `.minecraft/mods` kopieren.
             Auf dem Server ist die Mod nicht nötig.

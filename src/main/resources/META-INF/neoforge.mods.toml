@@ -4,7 +4,7 @@ license="GPL-3.0-or-later"
 
 [[mods]]
 modId="supportblocks"
-version="1.0.0"
+version="${file.jarVersion}"
 displayName="Support Blocks"
 authors="brennerofhell"
 description='''Markiert den Block, auf dem Spieler und Mobs stehen, mit einem grünen Rahmen

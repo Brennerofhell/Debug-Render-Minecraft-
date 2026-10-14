@@ -31,8 +31,12 @@ tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
 }
 
-// Lizenztext mit in die .jar packen
+// Jar: Version ins Manifest schreiben und Lizenztext mitpacken
 tasks.named('jar') {
+    // Wird in neoforge.mods.toml über ${file.jarVersion} als Mod-Version gelesen
+    manifest {
+        attributes 'Implementation-Version': project.version
+    }
     from('LICENSE') {
         rename { "${it}_${mod_id}" }
     }

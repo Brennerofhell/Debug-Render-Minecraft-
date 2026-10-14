@@ -32,12 +32,15 @@ tasks.withType(JavaCompile).configureEach {
 }
 
 // Jar: Version ins Manifest schreiben und Lizenztext mitpacken
+// (Werte vorab auslesen – der Configuration Cache erlaubt in Closures keinen Projektzugriff)
+def licenseName = "LICENSE_${mod_id}"
+def jarVersion = project.version.toString()
 tasks.named('jar') {
     // Wird in neoforge.mods.toml über ${file.jarVersion} als Mod-Version gelesen
     manifest {
-        attributes 'Implementation-Version': project.version
+        attributes 'Implementation-Version': jarVersion
     }
     from('LICENSE') {
-        rename { "${it}_${mod_id}" }
+        rename { licenseName }
     }
 }

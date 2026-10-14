@@ -1,0 +1,40 @@
+// Forge-MDK-Setup für Minecraft 1.21.1 (ForgeGradle 7, Java 21).
+plugins {
+    id 'java'
+    id 'idea'
+    id 'eclipse'
+    id 'net.minecraftforge.gradle' version '[7.0.3,8)'
+}
+
+version = mod_version
+group = 'com.supportblocks'
+base.archivesName = 'supportblocks'
+
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+
+minecraft {
+    // Offizielle Mojang-Namen (z. B. Entity#mainSupportingBlockPos)
+    mappings channel: 'official', version: minecraft_version
+
+    runs {
+        configureEach {
+            workingDir = layout.projectDirectory.dir('run')
+        }
+        register('client')
+    }
+}
+
+repositories {
+    minecraft.mavenizer(it)
+    maven fg.forgeMaven
+    maven fg.minecraftLibsMaven
+    mavenCentral()
+}
+
+dependencies {
+    implementation minecraft.dependency("net.minecraftforge:forge:${minecraft_version}-${forge_version}")
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}

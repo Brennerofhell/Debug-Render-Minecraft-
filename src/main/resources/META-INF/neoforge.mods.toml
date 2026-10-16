@@ -1,0 +1,27 @@
+modLoader="javafml"
+loaderVersion="[4,)"
+license="GPL-3.0-or-later"
+
+[[mods]]
+modId="supportblocks"
+version="${file.jarVersion}"
+displayName="Support Blocks"
+authors="brennerofhell"
+description='''Markiert den Block, auf dem Spieler und Mobs stehen, mit einem grünen Rahmen
+(Nachbau des Debug-Renderers "visualize_entity_supporting_block" aus 1.21.11).
+Umschalten mit F8. Reine Client-Mod – auf dem Server nicht nötig.'''
+
+# side="CLIENT": Die Mod wird nur auf dem Client benötigt/geladen.
+[[dependencies.supportblocks]]
+    modId="neoforge"
+    type="required"
+    versionRange="[21.1,)"
+    ordering="NONE"
+    side="CLIENT"
+
+[[dependencies.supportblocks]]
+    modId="minecraft"
+    type="required"
+    versionRange="[1.21.1,1.21.2)"
+    ordering="NONE"
+    side="CLIENT"

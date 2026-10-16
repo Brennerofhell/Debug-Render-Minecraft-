@@ -103,6 +103,11 @@ GitHub Actions baut die Mod und erstellt automatisch das Release `v1.0.1` mit de
 Alternativ geht das auch per Tag (`git tag v1.0.1 && git push origin v1.0.1`) oder über
 *Actions → Release → Run workflow*.
 
+## Dokumentation
+
+- [Architektur und Ablauf mit Diagrammen](docs/ARCHITEKTUR.md)
+- [Changelog](CHANGELOG.md)
+
 ## Lizenz
 
 [GNU General Public License v3.0 oder neuer](LICENSE)

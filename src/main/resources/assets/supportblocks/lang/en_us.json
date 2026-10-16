@@ -1,7 +1,6 @@
 {
   "key.categories.supportblocks": "Support Blocks",
   "key.supportblocks.toggle": "Toggle supporting-block outlines",
-
   "supportblocks.configuration.title": "Support Blocks Configuration",
   "supportblocks.configuration.section.supportblocks.client.toml": "Client Settings",
   "supportblocks.configuration.section.supportblocks.client.toml.title": "Client Settings",
@@ -11,12 +10,14 @@
   "supportblocks.configuration.onlyPlayers.tooltip": "Only mark players instead of all entities.",
   "supportblocks.configuration.radius": "Radius",
   "supportblocks.configuration.radius.tooltip": "Maximum distance in blocks.",
-  "supportblocks.configuration.red": "Color: red",
-  "supportblocks.configuration.red.tooltip": "Red component of the outline (0.0 - 1.0).",
-  "supportblocks.configuration.green": "Color: green",
-  "supportblocks.configuration.green.tooltip": "Green component of the outline (0.0 - 1.0).",
-  "supportblocks.configuration.blue": "Color: blue",
-  "supportblocks.configuration.blue.tooltip": "Blue component of the outline (0.0 - 1.0).",
-  "supportblocks.configuration.alpha": "Opacity",
-  "supportblocks.configuration.alpha.tooltip": "Opacity of the outline (0.0 - 1.0)."
+  "supportblocks.configuration.includeSelf": "Include yourself",
+  "supportblocks.configuration.includeSelf.tooltip": "Also mark your own player (third-person view only, F5).",
+  "supportblocks.configuration.seeThroughWalls": "See through walls",
+  "supportblocks.configuration.seeThroughWalls.tooltip": "Show the outlines through walls and other blocks.",
+  "supportblocks.configuration.useBlockShape": "Use block shape",
+  "supportblocks.configuration.useBlockShape.tooltip": "Outline the real block shape (slabs, stairs, fences, ...) instead of a full cube.",
+  "supportblocks.configuration.playerColor": "Player color",
+  "supportblocks.configuration.playerColor.tooltip": "Outline color for players as hex: #RRGGBB or #AARRGGBB.",
+  "supportblocks.configuration.entityColor": "Entity color",
+  "supportblocks.configuration.entityColor.tooltip": "Outline color for all other entities as hex: #RRGGBB or #AARRGGBB."
 }

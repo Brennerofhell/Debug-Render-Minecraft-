@@ -26,30 +26,35 @@ public final class Config {
             .translation("supportblocks.configuration.onlyPlayers")
             .define("onlyPlayers", false);
 
+    public static final ModConfigSpec.BooleanValue INCLUDE_SELF = BUILDER
+            .comment("Auch den eigenen Spieler markieren (nur in der Third-Person-Ansicht, F5)")
+            .translation("supportblocks.configuration.includeSelf")
+            .define("includeSelf", false);
+
     public static final ModConfigSpec.IntValue RADIUS = BUILDER
             .comment("Maximale Entfernung (in Blöcken) zwischen Kamera und Entity")
             .translation("supportblocks.configuration.radius")
             .defineInRange("radius", 64, 1, 256);
 
-    public static final ModConfigSpec.DoubleValue RED = BUILDER
-            .comment("Rahmenfarbe: Rot-Anteil (0.0 - 1.0)")
-            .translation("supportblocks.configuration.red")
-            .defineInRange("red", 0.0, 0.0, 1.0);
+    public static final ModConfigSpec.BooleanValue SEE_THROUGH_WALLS = BUILDER
+            .comment("Rahmen auch durch Wände und Blöcke hindurch anzeigen")
+            .translation("supportblocks.configuration.seeThroughWalls")
+            .define("seeThroughWalls", false);
 
-    public static final ModConfigSpec.DoubleValue GREEN = BUILDER
-            .comment("Rahmenfarbe: Grün-Anteil (0.0 - 1.0)")
-            .translation("supportblocks.configuration.green")
-            .defineInRange("green", 1.0, 0.0, 1.0);
+    public static final ModConfigSpec.BooleanValue USE_BLOCK_SHAPE = BUILDER
+            .comment("true = echte Blockform umranden (Stufen, Treppen, Zäune, ...), false = immer ganzer Würfel")
+            .translation("supportblocks.configuration.useBlockShape")
+            .define("useBlockShape", true);
 
-    public static final ModConfigSpec.DoubleValue BLUE = BUILDER
-            .comment("Rahmenfarbe: Blau-Anteil (0.0 - 1.0)")
-            .translation("supportblocks.configuration.blue")
-            .defineInRange("blue", 0.0, 0.0, 1.0);
+    public static final ModConfigSpec.ConfigValue<String> PLAYER_COLOR = BUILDER
+            .comment("Rahmenfarbe für Spieler als Hex: #RRGGBB oder #AARRGGBB")
+            .translation("supportblocks.configuration.playerColor")
+            .define("playerColor", "#00FF00", Config::isValidColor);
 
-    public static final ModConfigSpec.DoubleValue ALPHA = BUILDER
-            .comment("Rahmenfarbe: Deckkraft (0.0 - 1.0)")
-            .translation("supportblocks.configuration.alpha")
-            .defineInRange("alpha", 1.0, 0.0, 1.0);
+    public static final ModConfigSpec.ConfigValue<String> ENTITY_COLOR = BUILDER
+            .comment("Rahmenfarbe für alle anderen Entities als Hex: #RRGGBB oder #AARRGGBB")
+            .translation("supportblocks.configuration.entityColor")
+            .define("entityColor", "#00FF00", Config::isValidColor);
 
     public static final ModConfigSpec SPEC = BUILDER.build();
 
@@ -60,6 +65,28 @@ public final class Config {
     public static void onLoad(ModConfigEvent.Loading event) {
         if (event.getConfig().getSpec() == SPEC) {
             SupportBlocksMod.enabled = ENABLED_ON_STARTUP.get();
+        }
+    }
+
+    private static boolean isValidColor(Object value) {
+        return value instanceof String s && parseColor(s, -1) != -1;
+    }
+
+    /**
+     * Wandelt "#RRGGBB" oder "#AARRGGBB" in einen ARGB-int um.
+     * Ohne Alpha-Anteil ist die Farbe voll deckend.
+     *
+     * @return ARGB-Farbe oder {@code fallback} bei ungültiger Eingabe
+     */
+    public static int parseColor(String text, int fallback) {
+        String hex = text.trim();
+        if (hex.startsWith("#")) hex = hex.substring(1);
+        if (hex.length() != 6 && hex.length() != 8) return fallback;
+        try {
+            long value = Long.parseLong(hex, 16);
+            return hex.length() == 6 ? (int) (0xFF000000L | value) : (int) value;
+        } catch (NumberFormatException e) {
+            return fallback;
         }
     }
 }

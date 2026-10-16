@@ -1,7 +1,6 @@
 {
   "key.categories.supportblocks": "Support Blocks",
   "key.supportblocks.toggle": "Support-Blöcke ein/aus",
-
   "supportblocks.configuration.title": "Support Blocks – Einstellungen",
   "supportblocks.configuration.section.supportblocks.client.toml": "Client-Einstellungen",
   "supportblocks.configuration.section.supportblocks.client.toml.title": "Client-Einstellungen",
@@ -11,12 +10,14 @@
   "supportblocks.configuration.onlyPlayers.tooltip": "Nur Spieler markieren statt aller Entities.",
   "supportblocks.configuration.radius": "Radius",
   "supportblocks.configuration.radius.tooltip": "Maximale Entfernung in Blöcken.",
-  "supportblocks.configuration.red": "Farbe: Rot",
-  "supportblocks.configuration.red.tooltip": "Rot-Anteil des Rahmens (0.0 - 1.0).",
-  "supportblocks.configuration.green": "Farbe: Grün",
-  "supportblocks.configuration.green.tooltip": "Grün-Anteil des Rahmens (0.0 - 1.0).",
-  "supportblocks.configuration.blue": "Farbe: Blau",
-  "supportblocks.configuration.blue.tooltip": "Blau-Anteil des Rahmens (0.0 - 1.0).",
-  "supportblocks.configuration.alpha": "Deckkraft",
-  "supportblocks.configuration.alpha.tooltip": "Deckkraft des Rahmens (0.0 - 1.0)."
+  "supportblocks.configuration.includeSelf": "Eigenen Spieler zeigen",
+  "supportblocks.configuration.includeSelf.tooltip": "Auch den eigenen Spieler markieren (nur in der Third-Person-Ansicht, F5).",
+  "supportblocks.configuration.seeThroughWalls": "Durch Wände sichtbar",
+  "supportblocks.configuration.seeThroughWalls.tooltip": "Rahmen auch durch Wände und andere Blöcke anzeigen.",
+  "supportblocks.configuration.useBlockShape": "Echte Blockform",
+  "supportblocks.configuration.useBlockShape.tooltip": "Die echte Blockform umranden (Stufen, Treppen, Zäune, ...) statt eines ganzen Würfels.",
+  "supportblocks.configuration.playerColor": "Farbe für Spieler",
+  "supportblocks.configuration.playerColor.tooltip": "Rahmenfarbe für Spieler als Hex: #RRGGBB oder #AARRGGBB.",
+  "supportblocks.configuration.entityColor": "Farbe für Entities",
+  "supportblocks.configuration.entityColor.tooltip": "Rahmenfarbe für alle anderen Entities als Hex: #RRGGBB oder #AARRGGBB."
 }

@@ -27,7 +27,10 @@ Unter jedem Spieler und Mob wird der Block, auf dem er gerade steht, mit einem
 
 - Ein- und Ausschalten per Taste (**F8**, änderbar)
 - Rückmeldung in der Actionbar: *„Support-Blöcke: AN/AUS“*
-- Radius, Farbe und „nur Spieler“ einstellbar
+- Erkennt den Block wie Vanilla, auch wenn eine Entity an einer Blockkante steht
+- Umrandet die echte Blockform (z. B. Stufen, Treppen, Zäune)
+- Optional durch Wände sichtbar, getrennte Farben für Spieler und Mobs
+- Radius, Farben und „nur Spieler“ einstellbar
 - **Nur Client:** Auf dem Server nicht nötig, funktioniert auch auf fremden Servern
 
 ## Installation
@@ -57,9 +60,12 @@ Im Spiel über den Konfigurations-Knopf in der Mod-Liste änderbar, oder direkt 
 |---|---|---|
 | `enabledOnStartup` | `false` | Rahmen schon beim Spielstart anzeigen |
 | `onlyPlayers` | `false` | Nur Spieler markieren statt aller Entities |
+| `includeSelf` | `false` | Auch den eigenen Spieler markieren (nur in der Third-Person-Ansicht, F5) |
 | `radius` | `64` | Maximale Entfernung in Blöcken (1 - 256) |
-| `red` / `green` / `blue` | `0` / `1` / `0` | Rahmenfarbe (0.0 - 1.0) |
-| `alpha` | `1` | Deckkraft (0.0 - 1.0) |
+| `seeThroughWalls` | `false` | Rahmen auch durch Wände hindurch anzeigen |
+| `useBlockShape` | `true` | Echte Blockform umranden (Stufen, Treppen, Zäune) statt eines ganzen Würfels |
+| `playerColor` | `#00FF00` | Rahmenfarbe für Spieler, Hex `#RRGGBB` oder `#AARRGGBB` (mit Deckkraft) |
+| `entityColor` | `#00FF00` | Rahmenfarbe für alle anderen Entities |
 
 ## Ausprobieren
 

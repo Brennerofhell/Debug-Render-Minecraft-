@@ -12,7 +12,7 @@ import net.neoforged.neoforge.common.ModConfigSpec;
  * Im Spiel änderbar unter Mods → Support Blocks → Konfiguration;
  * Änderungen wirken sofort, ein Neustart ist nicht nötig.
  */
-@EventBusSubscriber(modid = SupportBlocksMod.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = SupportBlocksMod.MOD_ID, value = Dist.CLIENT)
 public final class Config {
 
     /** Welche Entities markiert werden. */

@@ -17,6 +17,7 @@ import org.lwjgl.glfw.GLFW;
  * Standard ist F8, änderbar unter Optionen → Steuerung → Tastenbelegung
  * (Kategorie "Support Blocks").
  */
+@EventBusSubscriber(modid = SupportBlocksMod.MOD_ID, value = Dist.CLIENT)
 public final class KeyHandler {
     public static final KeyMapping TOGGLE_KEY = new KeyMapping(
             "key.supportblocks.toggle",          // Übersetzungsschlüssel (lang/*.json)
@@ -26,32 +27,26 @@ public final class KeyHandler {
 
     private KeyHandler() {}
 
-    /** Registriert die Taste beim Mod-Event-Bus (läuft einmal beim Start). */
-    @EventBusSubscriber(modid = SupportBlocksMod.MOD_ID, value = Dist.CLIENT, bus = EventBusSubscriber.Bus.MOD)
-    public static final class ModEvents {
-        @SubscribeEvent
-        public static void onRegisterKeys(RegisterKeyMappingsEvent event) {
-            event.register(TOGGLE_KEY);
-        }
+    /** Registriert die Taste (läuft einmal beim Start, NeoForge wählt den Mod-Bus automatisch). */
+    @SubscribeEvent
+    public static void onRegisterKeys(RegisterKeyMappingsEvent event) {
+        event.register(TOGGLE_KEY);
     }
 
     /** Prüft nach jedem Client-Tick, ob die Taste gedrückt wurde. */
-    @EventBusSubscriber(modid = SupportBlocksMod.MOD_ID, value = Dist.CLIENT, bus = EventBusSubscriber.Bus.GAME)
-    public static final class GameEvents {
-        @SubscribeEvent
-        public static void onClientTick(ClientTickEvent.Post event) {
-            Minecraft mc = Minecraft.getInstance();
-            // consumeClick() liefert jeden Tastendruck genau einmal
-            while (TOGGLE_KEY.consumeClick()) {
-                SupportBlocksMod.enabled = !SupportBlocksMod.enabled;
-                if (mc.player != null) {
-                    Component msg = Component.literal("Support-Blöcke: ")
-                            .append(SupportBlocksMod.enabled
-                                    ? Component.literal("AN").withStyle(ChatFormatting.GREEN)
-                                    : Component.literal("AUS").withStyle(ChatFormatting.RED));
-                    // true = Anzeige in der Actionbar statt im Chat
-                    mc.player.displayClientMessage(msg, true);
-                }
+    @SubscribeEvent
+    public static void onClientTick(ClientTickEvent.Post event) {
+        Minecraft mc = Minecraft.getInstance();
+        // consumeClick() liefert jeden Tastendruck genau einmal
+        while (TOGGLE_KEY.consumeClick()) {
+            SupportBlocksMod.enabled = !SupportBlocksMod.enabled;
+            if (mc.player != null) {
+                Component msg = Component.literal("Support-Blöcke: ")
+                        .append(SupportBlocksMod.enabled
+                                ? Component.literal("AN").withStyle(ChatFormatting.GREEN)
+                                : Component.literal("AUS").withStyle(ChatFormatting.RED));
+                // true = Anzeige in der Actionbar statt im Chat
+                mc.player.displayClientMessage(msg, true);
             }
         }
     }

@@ -38,7 +38,7 @@ import java.util.Set;
  *
  * Einstellungen (Radius, Farben, durch Wände, ...) kommen aus {@link Config}.
  */
-@EventBusSubscriber(modid = SupportBlocksMod.MOD_ID, value = Dist.CLIENT, bus = EventBusSubscriber.Bus.GAME)
+@EventBusSubscriber(modid = SupportBlocksMod.MOD_ID, value = Dist.CLIENT)
 public final class SupportBlockRenderer {
 
     /** Höhe des Prüfbereichs unter den Füßen – derselbe Wert wie in Vanillas Entity#checkSupportingBlock. */

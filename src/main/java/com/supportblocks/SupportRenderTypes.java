@@ -48,7 +48,7 @@ public final class SupportRenderTypes {
                 VertexFormat.Mode.TRIANGLE_STRIP,
                 1536,
                 false,
-                true,
+                false, // keine Sortierung: die ist für Quads gedacht, wir zeichnen Triangle-Strips
                 RenderType.CompositeState.builder()
                         .setShaderState(RenderStateShard.POSITION_COLOR_SHADER)
                         .setLayeringState(RenderStateShard.VIEW_OFFSET_Z_LAYERING)

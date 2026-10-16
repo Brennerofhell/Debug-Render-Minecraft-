@@ -1,5 +1,6 @@
 package com.supportblocks;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Camera;
@@ -24,6 +25,8 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
+
+import org.joml.Matrix4fStack;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -80,11 +83,6 @@ public final class SupportBlockRenderer {
         boolean drawFill = fillOpacity > 0.0F;
         MultiBufferSource.BufferSource buffers = mc.renderBuffers().bufferSource();
 
-        PoseStack poseStack = event.getPoseStack();
-        poseStack.pushPose();
-        // Weltkoordinaten -> Kamerakoordinaten: Kamera-Position abziehen
-        poseStack.translate(-cam.x, -cam.y, -cam.z);
-
         // 1. Alle Ziele sammeln: Block, Form und Farbe
         List<Target> found = new ArrayList<>();
         Set<BlockPos> seen = new HashSet<>();
@@ -105,20 +103,35 @@ public final class SupportBlockRenderer {
             found.add(new Target(pos, shape, color));
         }
 
-        // 2. Erst alle Füllungen, dann alle Rahmen – so liegen die Rahmen sichtbar obendrauf
-        if (drawFill && !found.isEmpty()) {
-            VertexConsumer fill = buffers.getBuffer(fillType);
-            for (Target t : found) drawFill(poseStack, fill, t.shape(), t.pos(), t.color(), fillOpacity);
-            buffers.endBatch(fillType);
-        }
-        if (!found.isEmpty()) {
-            VertexConsumer lines = buffers.getBuffer(lineType);
-            PoseStack.Pose pose = poseStack.last();
-            for (Target t : found) drawShape(pose, lines, t.shape(), t.pos(), t.color());
-            buffers.endBatch(lineType);
-        }
+        if (found.isEmpty()) return;
 
-        poseStack.popPose();
+        // 2. Kamera-Drehung explizit setzen. In dieser Stage ist der PoseStack des Events leer und
+        //    die globale Model-View-Matrix enthält die Drehung je nach Stelle nicht mehr –
+        //    ohne das würden die Rahmen am Bildschirm "kleben" statt an den Blöcken.
+        Matrix4fStack modelView = RenderSystem.getModelViewStack();
+        modelView.pushMatrix();
+        modelView.set(event.getModelViewMatrix());
+        RenderSystem.applyModelViewMatrix();
+
+        try {
+            // Koordinaten werden relativ zur Kamera berechnet (in double), damit es auch
+            // weit weg vom Spawn nicht durch float-Ungenauigkeit zittert.
+            PoseStack poseStack = new PoseStack();
+
+            // 3. Erst alle Füllungen, dann alle Rahmen – so liegen die Rahmen sichtbar obendrauf
+            if (drawFill) {
+                VertexConsumer fill = buffers.getBuffer(fillType);
+                for (Target t : found) drawFill(poseStack, fill, t.shape(), t.pos(), cam, t.color(), fillOpacity);
+                buffers.endBatch(fillType);
+            }
+            VertexConsumer lines = buffers.getBuffer(lineType);
+            for (Target t : found) drawShape(poseStack.last(), lines, t.shape(), t.pos(), cam, t.color());
+            buffers.endBatch(lineType);
+        } finally {
+            // Immer zurücksetzen, sonst wäre der Rest der Welt falsch gedreht
+            modelView.popMatrix();
+            RenderSystem.applyModelViewMatrix();
+        }
     }
 
     /** Ein zu markierender Block mit Form und Farbe. */
@@ -134,7 +147,7 @@ public final class SupportBlockRenderer {
     }
 
     /**
-     * Ermittelt den Block, auf dem die Entity steht.
+     * Ermittelt den Block, auf dem die Entity steht (nur wenn sie auf dem Boden ist).
      * <ol>
      *   <li>{@code mainSupportingBlockPos} – das Feld, das auch Vanilla dafür nutzt.
      *       Auf dem Client wird es meist nur für die eigene Spielfigur gepflegt.</li>
@@ -142,15 +155,16 @@ public final class SupportBlockRenderer {
      *       ({@code Entity#checkSupportingBlock}): der Block, der den schmalen Bereich direkt
      *       unter den Füßen berührt und der Mitte am nächsten liegt. Dadurch stimmt das
      *       Ergebnis auch, wenn eine Entity an einer Blockkante steht.</li>
-     *   <li>Fallback: {@code getOnPos()}, aber nur wenn die Entity auf dem Boden steht.</li>
+     *   <li>Fallback: {@code getOnPos()}.</li>
      * </ol>
      *
      * @return Blockposition oder {@code null}, wenn die Entity nicht auf etwas steht
      */
     private static BlockPos getSupportingBlock(ClientLevel level, Entity entity) {
+        // Zuerst prüfen: mainSupportingBlockPos wird nicht bei jeder Entity zuverlässig geleert
+        if (!entity.onGround()) return null;
         Optional<BlockPos> main = entity.mainSupportingBlockPos;
         if (main.isPresent()) return main.get();
-        if (!entity.onGround()) return null;
 
         AABB box = entity.getBoundingBox();
         AABB feet = new AABB(box.minX, box.minY - FEET_EPSILON, box.minZ, box.maxX, box.minY, box.maxZ);
@@ -165,12 +179,13 @@ public final class SupportBlockRenderer {
     }
 
     /** Zeichnet alle Kanten der Form als Linien (wie Vanillas Block-Auswahlrahmen). */
-    private static void drawShape(PoseStack.Pose pose, VertexConsumer lines, VoxelShape shape, BlockPos pos, int argb) {
+    private static void drawShape(PoseStack.Pose pose, VertexConsumer lines, VoxelShape shape, BlockPos pos, Vec3 cam, int argb) {
         float a = ColorUtil.alpha(argb);
         float r = ColorUtil.red(argb);
         float g = ColorUtil.green(argb);
         float b = ColorUtil.blue(argb);
-        double ox = pos.getX(), oy = pos.getY(), oz = pos.getZ();
+        // Blockposition relativ zur Kamera
+        double ox = pos.getX() - cam.x, oy = pos.getY() - cam.y, oz = pos.getZ() - cam.z;
 
         shape.forAllEdges((x1, y1, z1, x2, y2, z2) -> {
             // Linien-Shader braucht die Richtung der Linie als "Normale"
@@ -189,16 +204,16 @@ public final class SupportBlockRenderer {
     }
 
     /** Füllt alle Teilquader der Form halbtransparent in der Rahmenfarbe. */
-    private static void drawFill(PoseStack poseStack, VertexConsumer fill, VoxelShape shape, BlockPos pos, int argb, float opacity) {
+    private static void drawFill(PoseStack poseStack, VertexConsumer fill, VoxelShape shape, BlockPos pos, Vec3 cam, int argb, float opacity) {
         float r = ColorUtil.red(argb);
         float g = ColorUtil.green(argb);
         float b = ColorUtil.blue(argb);
         float a = ColorUtil.alpha(argb) * opacity;
         for (AABB box : shape.toAabbs()) {
-            // Minimal vergrößern, damit die Füllung nicht mit der Blockoberfläche flackert
-            AABB world = box.move(pos.getX(), pos.getY(), pos.getZ()).inflate(FILL_INFLATE);
+            // Relativ zur Kamera, minimal vergrößert gegen Flackern mit der Blockoberfläche
+            AABB rel = box.move(pos.getX() - cam.x, pos.getY() - cam.y, pos.getZ() - cam.z).inflate(FILL_INFLATE);
             LevelRenderer.addChainedFilledBoxVertices(poseStack, fill,
-                    world.minX, world.minY, world.minZ, world.maxX, world.maxY, world.maxZ, r, g, b, a);
+                    rel.minX, rel.minY, rel.minZ, rel.maxX, rel.maxY, rel.maxZ, r, g, b, a);
         }
     }
 }

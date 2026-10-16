@@ -29,8 +29,9 @@ Unter jedem Spieler und Mob wird der Block, auf dem er gerade steht, mit einem
 - Rückmeldung in der Actionbar: *„Support-Blöcke: AN/AUS“*
 - Erkennt den Block wie Vanilla, auch wenn eine Entity an einer Blockkante steht
 - Umrandet die echte Blockform (z. B. Stufen, Treppen, Zäune)
-- Optional durch Wände sichtbar, getrennte Farben für Spieler und Mobs
-- Radius, Farben und „nur Spieler“ einstellbar
+- Optional durch Wände sichtbar und mit halbtransparenter Füllung
+- Eigene Farben für Spieler, feindliche Mobs, friedliche Mobs und sonstige Entities
+- Auswahl, was markiert wird: nur Spieler, Spieler und Mobs, oder alles
 - **Nur Client:** Auf dem Server nicht nötig, funktioniert auch auf fremden Servern
 
 ## Installation
@@ -59,13 +60,18 @@ Im Spiel über den Konfigurations-Knopf in der Mod-Liste änderbar, oder direkt 
 | Option | Standard | Beschreibung |
 |---|---|---|
 | `enabledOnStartup` | `false` | Rahmen schon beim Spielstart anzeigen |
-| `onlyPlayers` | `false` | Nur Spieler markieren statt aller Entities |
+| `targets` | `ALL` | `PLAYERS` = nur Spieler, `LIVING` = Spieler und Mobs, `ALL` = alle Entities (auch Items, Boote, ...) |
 | `includeSelf` | `false` | Auch den eigenen Spieler markieren (nur in der Third-Person-Ansicht, F5) |
 | `radius` | `64` | Maximale Entfernung in Blöcken (1 - 256) |
 | `seeThroughWalls` | `false` | Rahmen auch durch Wände hindurch anzeigen |
 | `useBlockShape` | `true` | Echte Blockform umranden (Stufen, Treppen, Zäune) statt eines ganzen Würfels |
-| `playerColor` | `#00FF00` | Rahmenfarbe für Spieler, Hex `#RRGGBB` oder `#AARRGGBB` (mit Deckkraft) |
-| `entityColor` | `#00FF00` | Rahmenfarbe für alle anderen Entities |
+| `fillOpacity` | `0.0` | Block zusätzlich halbtransparent in der Rahmenfarbe füllen (0.0 = aus) |
+| `playerColor` | `#00FF00` | Farbe für Spieler |
+| `hostileColor` | `#00FF00` | Farbe für feindliche Mobs (Zombies, Creeper, ...) |
+| `passiveColor` | `#00FF00` | Farbe für friedliche Mobs (Tiere, Dorfbewohner, ...) |
+| `otherColor` | `#00FF00` | Farbe für alle anderen Entities (Items, Boote, ...) |
+
+Farben als Hex `#RRGGBB` oder mit Deckkraft `#AARRGGBB`, z. B. `#80FF0000` für halbtransparentes Rot.
 
 ## Ausprobieren
 
@@ -86,7 +92,7 @@ cd Debug-Render-Minecraft-
 ./gradlew build        # Windows: gradlew.bat build
 ```
 
-Die fertige Mod liegt danach in `build/libs/`.
+Die fertige Mod liegt danach in `build/libs/`. `./gradlew test` führt nur die Unit-Tests aus.
 
 ### Neue Version veröffentlichen
 

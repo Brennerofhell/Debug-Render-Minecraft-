@@ -33,5 +33,30 @@ public final class SupportRenderTypes {
                     .setDepthTestState(RenderStateShard.NO_DEPTH_TEST)
                     .createCompositeState(false));
 
+    /** Halbtransparente Füllung, die von Blöcken verdeckt wird. */
+    public static final RenderType FILL = fill("supportblocks_fill", RenderStateShard.LEQUAL_DEPTH_TEST);
+
+    /** Halbtransparente Füllung, auch durch Wände sichtbar. */
+    public static final RenderType FILL_SEE_THROUGH = fill("supportblocks_fill_see_through", RenderStateShard.NO_DEPTH_TEST);
+
     private SupportRenderTypes() {}
+
+    private static RenderType fill(String name, RenderStateShard.DepthTestStateShard depthTest) {
+        return RenderType.create(
+                name,
+                DefaultVertexFormat.POSITION_COLOR,
+                VertexFormat.Mode.TRIANGLE_STRIP,
+                1536,
+                false,
+                true,
+                RenderType.CompositeState.builder()
+                        .setShaderState(RenderStateShard.POSITION_COLOR_SHADER)
+                        .setLayeringState(RenderStateShard.VIEW_OFFSET_Z_LAYERING)
+                        .setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY)
+                        // Nur Farbe schreiben, damit die Füllung nichts dahinter "verschluckt"
+                        .setWriteMaskState(RenderStateShard.COLOR_WRITE)
+                        .setCullState(RenderStateShard.NO_CULL)
+                        .setDepthTestState(depthTest)
+                        .createCompositeState(false));
+    }
 }

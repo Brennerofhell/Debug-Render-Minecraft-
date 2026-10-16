@@ -27,6 +27,16 @@ neoForge {
     }
 }
 
+dependencies {
+    // Unit-Tests für Code ohne Minecraft-Abhängigkeiten (z. B. ColorUtil)
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.11.3'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher:1.11.3'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
 }

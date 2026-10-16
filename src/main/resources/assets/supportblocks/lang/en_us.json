@@ -6,8 +6,6 @@
   "supportblocks.configuration.section.supportblocks.client.toml.title": "Client Settings",
   "supportblocks.configuration.enabledOnStartup": "Enabled on startup",
   "supportblocks.configuration.enabledOnStartup.tooltip": "Show the outlines right after the game starts.",
-  "supportblocks.configuration.onlyPlayers": "Only players",
-  "supportblocks.configuration.onlyPlayers.tooltip": "Only mark players instead of all entities.",
   "supportblocks.configuration.radius": "Radius",
   "supportblocks.configuration.radius.tooltip": "Maximum distance in blocks.",
   "supportblocks.configuration.includeSelf": "Include yourself",
@@ -18,6 +16,14 @@
   "supportblocks.configuration.useBlockShape.tooltip": "Outline the real block shape (slabs, stairs, fences, ...) instead of a full cube.",
   "supportblocks.configuration.playerColor": "Player color",
   "supportblocks.configuration.playerColor.tooltip": "Outline color for players as hex: #RRGGBB or #AARRGGBB.",
-  "supportblocks.configuration.entityColor": "Entity color",
-  "supportblocks.configuration.entityColor.tooltip": "Outline color for all other entities as hex: #RRGGBB or #AARRGGBB."
+  "supportblocks.configuration.targets": "Targets",
+  "supportblocks.configuration.targets.tooltip": "PLAYERS = players only, LIVING = players and mobs, ALL = all entities (items, boats, ...).",
+  "supportblocks.configuration.fillOpacity": "Fill opacity",
+  "supportblocks.configuration.fillOpacity.tooltip": "Fill the block in the outline color (0.0 = no fill).",
+  "supportblocks.configuration.hostileColor": "Hostile mob color",
+  "supportblocks.configuration.hostileColor.tooltip": "Outline color for hostile mobs as hex: #RRGGBB or #AARRGGBB.",
+  "supportblocks.configuration.passiveColor": "Passive mob color",
+  "supportblocks.configuration.passiveColor.tooltip": "Outline color for passive mobs (animals, villagers, ...) as hex: #RRGGBB or #AARRGGBB.",
+  "supportblocks.configuration.otherColor": "Other entity color",
+  "supportblocks.configuration.otherColor.tooltip": "Outline color for all other entities (items, boats, ...) as hex: #RRGGBB or #AARRGGBB."
 }

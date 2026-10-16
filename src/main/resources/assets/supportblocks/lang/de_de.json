@@ -6,8 +6,6 @@
   "supportblocks.configuration.section.supportblocks.client.toml.title": "Client-Einstellungen",
   "supportblocks.configuration.enabledOnStartup": "Beim Start aktiv",
   "supportblocks.configuration.enabledOnStartup.tooltip": "Rahmen direkt nach dem Spielstart anzeigen.",
-  "supportblocks.configuration.onlyPlayers": "Nur Spieler",
-  "supportblocks.configuration.onlyPlayers.tooltip": "Nur Spieler markieren statt aller Entities.",
   "supportblocks.configuration.radius": "Radius",
   "supportblocks.configuration.radius.tooltip": "Maximale Entfernung in Blöcken.",
   "supportblocks.configuration.includeSelf": "Eigenen Spieler zeigen",
@@ -18,6 +16,14 @@
   "supportblocks.configuration.useBlockShape.tooltip": "Die echte Blockform umranden (Stufen, Treppen, Zäune, ...) statt eines ganzen Würfels.",
   "supportblocks.configuration.playerColor": "Farbe für Spieler",
   "supportblocks.configuration.playerColor.tooltip": "Rahmenfarbe für Spieler als Hex: #RRGGBB oder #AARRGGBB.",
-  "supportblocks.configuration.entityColor": "Farbe für Entities",
-  "supportblocks.configuration.entityColor.tooltip": "Rahmenfarbe für alle anderen Entities als Hex: #RRGGBB oder #AARRGGBB."
+  "supportblocks.configuration.targets": "Markierte Entities",
+  "supportblocks.configuration.targets.tooltip": "PLAYERS = nur Spieler, LIVING = Spieler und Mobs, ALL = alle Entities (Items, Boote, ...).",
+  "supportblocks.configuration.fillOpacity": "Deckkraft der Füllung",
+  "supportblocks.configuration.fillOpacity.tooltip": "Block in der Rahmenfarbe füllen (0.0 = keine Füllung).",
+  "supportblocks.configuration.hostileColor": "Farbe für feindliche Mobs",
+  "supportblocks.configuration.hostileColor.tooltip": "Rahmenfarbe für feindliche Mobs als Hex: #RRGGBB oder #AARRGGBB.",
+  "supportblocks.configuration.passiveColor": "Farbe für friedliche Mobs",
+  "supportblocks.configuration.passiveColor.tooltip": "Rahmenfarbe für friedliche Mobs (Tiere, Dorfbewohner, ...) als Hex: #RRGGBB oder #AARRGGBB.",
+  "supportblocks.configuration.otherColor": "Farbe für sonstige Entities",
+  "supportblocks.configuration.otherColor.tooltip": "Rahmenfarbe für alle anderen Entities (Items, Boote, ...) als Hex: #RRGGBB oder #AARRGGBB."
 }
